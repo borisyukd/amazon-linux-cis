@@ -18,7 +18,7 @@ def get_string_asset(path):
 def disable_unused_filesystems():
     """1.1.1 Disable unused filesystems"""
     filesystems = [
-        'cramfs', 'freevxfs', 'jffs2', 'hfs', 'hfsplus', 'squashfs', 'udf', 'vfat'
+        'cramfs', 'freevxfs', 'jffs2', 'hfs', 'hfsplus', 'squashfs', 'udf'
     ]
 
     prop = PropertyFile('/etc/modprobe.d/CIS.conf', ' ')
@@ -32,7 +32,6 @@ def set_mount_options():
     options = {
         '/tmp': 'tmpfs /tmp tmpfs rw,nosuid,nodev,noexec,relatime 0 0',
         '/var/tmp': 'tmpfs /var/tmp tmpfs rw,nosuid,nodev,noexec,relatime 0 0',
-        '/home': '/dev/xvdf1 /home ext4 rw,nodev,relatime,data=ordered 0 0',
         '/dev/shm': 'tmpfs /dev/shm tmpfs rw,nosuid,nodev,noexec,relatime 0 0'
     }
 
@@ -415,8 +414,9 @@ def configure_sshd():
         'PermitRootLogin': 'no',
         'PermitEmptyPasswords': 'no',
         'PermitUserEnvironment': 'no',
-        'Ciphers': 'aes256-ctr,aes192-ctr,aes128-ctr',
-        'MACs': 'hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-512,hmac-sha2-256,umac-128@openssh.com',
+        'Ciphers': 'chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com',
+        'MACs': 'hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,umac-128-etm@openssh.com',
+        'KexAlgorithms': 'curve25519-sha256,curve25519-sha256@libssh.org,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group14-sha256',
         'ClientAliveInterval': '300',
         'ClientAliveCountMax': '0',
         'LoginGraceTime': '60',
